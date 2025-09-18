@@ -188,6 +188,7 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    background-color: #f8f9fa;
   }
 
   /* Main Container Styles */
@@ -265,7 +266,7 @@
   .review-grid {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0;
   }
 
   /* Mobile Styles */
@@ -829,9 +830,26 @@
 
   .container {
     width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
+    /* Fluid but bounded container */
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    /* Fluid horizontal padding: 12px on very small, up to 24px on large */
+    padding-left: clamp(12px, 3vw, 24px);
+    padding-right: clamp(12px, 3vw, 24px);
+    box-sizing: border-box;
+  }
+  /* Large desktops */
+  @media (min-width: 1440px) {
+    .container { max-width: 1280px; }
+  }
+  /* Tablets / small laptops */
+  @media (max-width: 1024px) {
+    .container { max-width: 960px; }
+  }
+  /* Mobile */
+  @media (max-width: 768px) {
+    .container { max-width: 100%; }
   }
 
  
@@ -861,7 +879,7 @@
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     text-align: center;
     transition: transform 0.3s ease;
   }
@@ -990,8 +1008,66 @@
     }
   }
   </style>
+  <style>
+    /* Responsive overrides for Student Showcase sizing */
+    .student-showcase-container { width: 100% !important; max-width: 380px !important; height: 520px !important; }
+    .student-photo-container { width: 240px !important; height: 300px !important; }
+    #student-name { font-size: 28px !important; }
+    #student-role { font-size: 16px !important; }
+    #student-company { font-size: 20px !important; }
+    #student-package { font-size: 24px !important; }
 
+    /* Large tablets / small laptops */
+    @media (max-width: 1024px) {
+      .student-showcase-container { max-width: 350px !important; height: 480px !important; }
+      .student-photo-container { width: 220px !important; height: 280px !important; }
+      #student-name { font-size: 26px !important; }
+      #student-package { font-size: 22px !important; }
+    }
 
+    /* Tablets and large phones */
+    @media (max-width: 768px) {
+      .student-showcase-container { max-width: 320px !important; height: 450px !important; }
+      .student-photo-container { width: 210px !important; height: 260px !important; }
+      #student-name { font-size: 24px !important; }
+      #student-role { font-size: 15px !important; }
+      #student-company { font-size: 18px !important; }
+      #student-package { font-size: 20px !important; }
+    }
+
+    /* Small phones */
+    @media (max-width: 420px) {
+      .student-showcase-container { max-width: 290px !important; height: 410px !important; }
+      .student-photo-container { width: 190px !important; height: 235px !important; }
+      #student-name { font-size: 22px !important; }
+      #student-role { font-size: 14px !important; }
+      #student-company { font-size: 17px !important; }
+      #student-package { font-size: 19px !important; }
+    }
+
+    /* Very small screens */
+    @media (max-width: 360px) {
+      .student-showcase-container { max-width: 260px !important; height: 380px !important; }
+      .student-photo-container { width: 170px !important; height: 210px !important; }
+      #student-name { font-size: 20px !important; }
+      #student-role { font-size: 13px !important; }
+      #student-company { font-size: 16px !important; }
+      #student-package { font-size: 18px !important; }
+    }
+  </style>
+  <style>
+    /* Ensure full hero content is visible (fix clipping on right side) */
+    .hero { overflow: visible !important; }
+    .hero .container { overflow: visible !important; }
+    .hero-right-content { overflow: visible !important; }
+    .student-showcase-container { overflow: visible !important; }
+
+    /* Guard against accidental horizontal clipping on small screens */
+    .hero .container { padding-left: 20px; padding-right: 20px; max-width: 1200px; margin: 0 auto; }
+
+    /* If any parent inherited overflow hidden earlier, explicitly reset here */
+    .features, .services, .reviews, .footer { overflow: visible; }
+  </style>
 </head>
   <style>
     .modal {
@@ -1293,37 +1369,94 @@
   </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-main-logo">
-        <img src="/img/logo.png" alt="Eduprajna Logo" />
-      </div>
-      <div class="hero-logos">
-        <!-- Logos -->
-        
-        <!-- Rating Bar -->
-        
-      </div>
-      <div class="container">
-        <h1>
-          Education Opens Up the Mind, <br />
-          <span>&</span> Unlocking Endless Possibilities.
-        </h1>
-        <p>
-          At Eduprajna learn tomorrow technologies today from industry experts.
-          <br />
-          Empowering students with knowledge and skills for the future.
-        </p>
-        <div class="hero-btn">
-          <button class="btn btn-primary cssbuttons-io-button" id="get-started-btn">
-            Get started
-            <div class="icon">
-              <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
-                  fill="currentColor"></path>
-              </svg>
+    <section class="hero" style="padding: 80px 20px; margin-top: 40px; min-height: 70vh; display: flex; align-items: center;">
+      <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 60px; flex-wrap: wrap;">
+        <!-- Left Content -->
+        <div class="hero-left-content" style="flex: 1; min-width: 300px;">
+          <!-- Main Heading -->
+          <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.2; margin-bottom: 20px; color: #333;">
+            Land a <span style="color: #77ad26;">₹7 – 18 LPA</span> Job<br>
+            in <span style="color: #77ad26;">90 Days</span><br>
+            <span style="font-size: 0.7em; opacity: 0.9;">or we keep training you <span style="color: #77ad26; font-weight: 600;">free</span></span>
+          </h1>
+
+          <!-- Features List -->
+          <div style="margin-bottom: 40px;">
+            <div style="display: flex; align-items: center; margin-bottom: 12px; font-size: 16px;">
+              <span style="color: #77ad26; margin-right: 12px; font-size: 18px;">✓</span>
+              Online + Offline Classes
             </div>
-          </button>
+            <div style="display: flex; align-items: center; margin-bottom: 12px; font-size: 16px;">
+              <span style="color: #77ad26; margin-right: 12px; font-size: 18px;">✓</span>
+              3000+ Trusted Hiring Partners
+            </div>
+            <div style="display: flex; align-items: center; margin-bottom: 12px; font-size: 16px;">
+              <span style="color: #77ad26; margin-right: 12px; font-size: 18px;">✓</span>
+              Unlimited interview opportunities
+            </div>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 30px;">
+            <button class="cssbuttons-io-button hero-primary-btn" style="background: #77ad26; padding: 15px 30px; font-size: 16px; font-weight: 600; border-radius: 8px; border: none; color: white; cursor: pointer; transition: all 0.3s ease;">
+              Register you seat Now
+            </button>
+          </div>
+
+          <!-- Rating -->
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="display: flex; color: #ffd700;">
+              ⭐⭐⭐⭐⭐
+            </div>
+            <span style="font-size: 14px; opacity: 0.8;">4.9/5 from 75,000+ students</span>
+          </div>
+        </div>
+
+        <!-- Right Content - 3D Flip Student Showcase -->
+        <div class="hero-right-content" style="flex: 1; min-width: 300px; display: flex; justify-content: center; align-items: center; position: relative;">
+          <div class="student-showcase-container" style="perspective: 1000px; width: 100%; max-width: 450px; height: 600px;">
+            <div id="student-card" class="student-card" style="position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+                
+                <!-- Student Card Front -->
+                <div class="student-card-face student-card-front" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); border-radius: 20px; padding: 0; box-shadow: 0 25px 50px rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; overflow: hidden;">
+                  
+                  <!-- Student Photo Section -->
+                  <div class="student-photo-section" style="position: relative; width: 100%; height: 70%; display: flex; align-items: center; justify-content: center; background: transparent;">
+                    <div class="student-photo-container" style="position: relative; width: 280px; height: 350px; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+                      <img id="student-image" src="" alt="Student" style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease;">
+                      <div id="student-initial-fallback" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #77ad26, #8cc63f); display: flex; align-items: center; justify-content: center; color: white; font-size: 120px; font-weight: bold; opacity: 0;">
+                        <span id="student-initial">A</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Student Info Section -->
+                  <div class="student-info-section" style="width: 100%; height: 30%; padding: 20px 30px; display: flex; flex-direction: column; justify-content: center; text-align: left;">
+                    <h3 id="student-name" style="font-size: 32px; font-weight: 700; margin: 0 0 8px 0; color: #ecf0f1;">A Sravani</h3>
+                    <p id="student-role" style="font-size: 18px; color: #bdc3c7; margin: 0 0 8px 0; font-weight: 500;">Engineering Intern</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                      <span id="student-company" style="font-size: 24px; font-weight: 600; color: #3498db;">Zeta</span>
+                      <span id="student-package" style="font-size: 28px; font-weight: 700; color: #f39c12;">16 LPA</span>
+                    </div>
+                  </div>
+
+                  <!-- Navigation Dots -->
+                  <div class="navigation-dots" style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 10px;">
+                    <button class="nav-dot prev-btn" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                      </svg>
+                    </button>
+                    <button class="nav-dot next-btn" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1803,7 +1936,7 @@
       <div class="line"></div>
     </div>
     <div class="footer2">
-      <p>© eduprajna 2025</p>
+      <p> eduprajna 2025</p>
     </div>
   </footer>
 
@@ -1884,6 +2017,294 @@
       });
     });
   </script>
+  <script>
+    // Student Showcase 3D Flip System
+    const students = [
+      { 
+        name: "Vinodh ", 
+        role: "Cloud Engineer", 
+        company: "HCL", 
+        package: "12 LPA", 
+        photo: "./student_image/vinod.jpg", 
+        initial: "N",
+        avatarColor: "linear-gradient(135deg, #77ad26, #8cc63f)"
+      },
+      { 
+        name: "Prathibha", 
+        role: "VMware Cloud Engineer", 
+        company: "TCS", 
+        package: "8 LPA", 
+        photo: "./student_image/prathibha.png", 
+        initial: "A",
+        avatarColor: "linear-gradient(135deg, #e74c3c, #f39c12)"
+      },
+      { 
+        name: "Keerthana", 
+        role: "Fullstack Developer", 
+        company: "Klaus", 
+        package: "3.8 LPA", 
+        photo: "./student_image/keerthana.png", 
+        initial: "P",
+        avatarColor: "linear-gradient(135deg, #9b59b6, #8e44ad)"
+      },
+      { 
+        name: "Jithin", 
+        role: "Cloud Engineer", 
+        company: "HCL", 
+        package: "5 LPA", 
+        photo: "./student_image/Jithin.png", 
+        initial: "A",
+        avatarColor: "linear-gradient(135deg, #f39c12, #e67e22)"
+      },
+      { 
+        name: "Prashanth ", 
+        role: "Cyber Security Analysis", 
+        company: "Hp", 
+        package: "4.8 LPA", 
+        photo: "./student_image/prashanth.jpg", 
+        initial: "R",
+        avatarColor: "linear-gradient(135deg, #3498db, #2980b9)"
+      },
+      { 
+        name: "Janani", 
+        role: "AWS Developer", 
+        company: "HITACHI", 
+        package: "3.8 LPA", 
+        photo: "./student_image/janani.png", 
+        initial: "S",
+        avatarColor: "linear-gradient(135deg, #e67e22, #d35400)"
+      },
+      { 
+        name: "Darshan", 
+        role: "network engineer", 
+        company: "Levotal ", 
+        package: "3 LPA", 
+        photo: "./student_image/darshan.png", 
+        initial: "V",
+        avatarColor: "linear-gradient(135deg, #1abc9c, #16a085)"
+      },
+      { 
+        name: "Ram Krishna Reddy", 
+        role: "IT support engineer", 
+        company: "Levotal", 
+        package: "3 LPA", 
+        photo: "./student_image/ram.jpg", 
+        initial: "A",
+        avatarColor: "linear-gradient(135deg, #f39c12, #e67e22)"
+      },
+      { 
+        name: "Haripriya", 
+        role: "Desktop Engineer", 
+        company: "SIRI", 
+        package: "3.1 LPA", 
+        photo: "./student_image/haripriya.png", 
+        initial: "K",
+        avatarColor: "linear-gradient(135deg, #34495e, #2c3e50)"
+      },
+      { 
+        name: "Naveen", 
+        role: "IT Support Engineer", 
+        company: "Levotal", 
+        package: "3 LPA", 
+        photo: "./student_image/Naveen.png", 
+        initial: "S",
+        avatarColor: "linear-gradient(135deg, #607d8b, #455a64)"
+      },
+      { 
+        name: "Anushka", 
+        role: "Junior Software Developer", 
+        company: "Flipkart", 
+        package: "3 LPA", 
+        photo: "./student_image/anushka.jpg", 
+        initial: "D",
+        avatarColor: "linear-gradient(135deg, #e91e63, #ad1457)"
+      },
+      { 
+        name: "Jagadeesh", 
+        role: "IT Support Engineer", 
+        company: "Blusofe", 
+        package: "2.7 LPA", 
+        photo: "./student_image/jagdeesh.jpg", 
+        initial: "S",
+        avatarColor: "linear-gradient(135deg, #607d8b, #455a64)"
+      }
+    ];
+    let currentStudentIndex = 0;
+    let rotationInterval;
+    let isFlipping = false;
+    let isHovered = false;
+
+    // Timing and animation configuration
+    const ROTATION_INTERVAL_MS = 2500; // time between profile changes
+    const FLIP_HALF_DURATION_MS = 350; // half of the flip duration (midpoint update)
+    const FLIP_SCALE = 0.92; // how much the card scales during the flip
+    const FLIP_EASING = 'cubic-bezier(0.2, 0.8, 0.2, 1)'; // smooth, natural easing
+
+    function updateStudentCard(student) {
+      const nameElement = document.getElementById('student-name');
+      const roleElement = document.getElementById('student-role');
+      const companyElement = document.getElementById('student-company');
+      const packageElement = document.getElementById('student-package');
+      const imageElement = document.getElementById('student-image');
+      const initialElement = document.getElementById('student-initial');
+      const fallbackElement = document.getElementById('student-initial-fallback');
+
+      if (nameElement) nameElement.textContent = student.name;
+      if (roleElement) roleElement.textContent = student.role;
+      if (companyElement) companyElement.textContent = student.company;
+      if (packageElement) packageElement.textContent = student.package;
+      if (initialElement) initialElement.textContent = student.initial;
+
+      // Update fallback background color
+      if (fallbackElement) {
+        fallbackElement.style.background = student.avatarColor;
+      }
+
+      // Enhanced image loading with better error handling
+      if (imageElement && student.photo && student.photo.trim() !== '') {
+        // Reset previous state
+        imageElement.style.opacity = '0';
+        fallbackElement.style.opacity = '1';
+        
+        // Create a new image to test loading
+        const testImage = new Image();
+        
+        testImage.onload = function() {
+          // Image loaded successfully
+          imageElement.src = student.photo;
+          imageElement.style.opacity = '1';
+          fallbackElement.style.opacity = '0';
+        };
+        
+        testImage.onerror = function() {
+          // Image failed to load, use fallback
+          console.log('Failed to load image:', student.photo);
+          imageElement.style.opacity = '0';
+          fallbackElement.style.opacity = '1';
+        };
+        
+        // Start loading the image
+        testImage.src = student.photo;
+        
+      } else {
+        // No photo provided or empty string, show fallback immediately
+        if (imageElement) {
+          imageElement.style.opacity = '0';
+          imageElement.src = '';
+        }
+        if (fallbackElement) fallbackElement.style.opacity = '1';
+      }
+    }
+
+    function performFlipAnimation(direction = 1) {
+      if (isFlipping) return;
+      
+      isFlipping = true;
+      const studentCard = document.getElementById('student-card');
+      
+      if (!studentCard) {
+        isFlipping = false;
+        return;
+      }
+
+      // Ensure transition uses our configured easing and duration
+      studentCard.style.transition = `transform ${FLIP_HALF_DURATION_MS * 2}ms ${FLIP_EASING}`;
+
+      // First half of the flip
+      studentCard.style.transform = `rotateY(90deg) scale(${FLIP_SCALE})`;
+
+      // Update content at the middle of flip
+      setTimeout(() => {
+        currentStudentIndex = (currentStudentIndex + direction + students.length) % students.length;
+        updateStudentCard(students[currentStudentIndex]);
+      }, FLIP_HALF_DURATION_MS);
+
+      // Complete flip animation
+      setTimeout(() => {
+        studentCard.style.transform = 'rotateY(0deg) scale(1)';
+        isFlipping = false;
+      }, FLIP_HALF_DURATION_MS * 2);
+    }
+
+    function startStudentRotation() {
+      rotationInterval = setInterval(() => {
+        performFlipAnimation(1);
+      }, ROTATION_INTERVAL_MS);
+    }
+
+    function stopStudentRotation() {
+      if (rotationInterval) {
+        clearInterval(rotationInterval);
+        rotationInterval = null;
+      }
+    }
+
+    function goToPrevStudent() {
+      if (isFlipping) return;
+      stopStudentRotation();
+      performFlipAnimation(-1);
+      if (!isHovered) {
+        setTimeout(startStudentRotation, ROTATION_INTERVAL_MS);
+      }
+    }
+
+    function goToNextStudent() {
+      if (isFlipping) return;
+      stopStudentRotation();
+      performFlipAnimation(1);
+      if (!isHovered) {
+        setTimeout(startStudentRotation, ROTATION_INTERVAL_MS);
+      }
+    }
+
+    // Initialize student showcase
+    function initStudentShowcase() {
+      // Set initial student
+      updateStudentCard(students[currentStudentIndex]);
+      
+      // Set base transitions for card and image for smoothness
+      const studentCard = document.getElementById('student-card');
+      if (studentCard) {
+        studentCard.style.transition = `transform ${FLIP_HALF_DURATION_MS * 2}ms ${FLIP_EASING}`;
+        studentCard.style.transformStyle = 'preserve-3d';
+      }
+      const imageElement = document.getElementById('student-image');
+      if (imageElement) {
+        imageElement.style.transition = 'opacity 350ms ease';
+      }
+       
+      // Start rotation after 1 second
+      setTimeout(() => {
+        startStudentRotation();
+      }, 1000);
+
+      // Attach Prev/Next button handlers
+      const prevBtn = document.querySelector('.prev-btn');
+      const nextBtn = document.querySelector('.next-btn');
+      if (prevBtn) prevBtn.addEventListener('click', goToPrevStudent);
+      if (nextBtn) nextBtn.addEventListener('click', goToNextStudent);
+
+      // Pause rotation on hover and resume on leave
+      const showcaseContainer = document.querySelector('.student-showcase-container');
+      if (showcaseContainer) {
+        showcaseContainer.addEventListener('mouseenter', () => {
+          isHovered = true;
+          stopStudentRotation();
+        });
+        showcaseContainer.addEventListener('mouseleave', () => {
+          isHovered = false;
+          if (!isFlipping) startStudentRotation();
+        });
+      }
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize student showcase
+      initStudentShowcase();
+    });
+
+  </script>
 </body>
   <script>
     // Modal open/close logic
@@ -1949,6 +2370,7 @@
         loadingSpinner.style.display = 'none';
       }
     });
+    // Added missing closing brace for the async function
     // Fix for iOS viewport height issues
     function fixViewportHeight() {
       let vh = window.innerHeight * 0.01;
@@ -1958,6 +2380,4 @@
     window.addEventListener('orientationchange', fixViewportHeight);
     fixViewportHeight();
   </script>
-
 </html>
-
